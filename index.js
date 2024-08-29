@@ -17,7 +17,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Server is running" });
+  res.status(200).json({ message: "Server is running fine" });
 });
 
 app.get("/test-connection", async (req, res) => {
