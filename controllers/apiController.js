@@ -99,7 +99,7 @@ router.get("/resetPages", async (req, res) => {
         componentList: ["birthday"],
       });
     }
-    
+
     await page3.save();
     res.status(200).json({ message: "Pages reset successfully" });
   } catch (error) {
@@ -124,7 +124,7 @@ router.post("/pages", async (req, res) => {
 
     await page.save();
 
-    res.status(201).json({ message: "Page layout created successfully", page });
+    res.status(201).json({ message: "Default layout loaded successfully", page });
   } catch (error) {
     res.status(500).json({ message: "Error creating page", error });
   }
