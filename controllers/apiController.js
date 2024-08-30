@@ -68,6 +68,24 @@ router.get("/pages", async (req, res) => {
   }
 });
 
+router.get("/resetPages", async (req, res) => {
+  try {
+    let page2= new Page({
+      pageNo: 2,
+      componentList: ['aboutMe', 'city', 'state', 'zip']
+    });
+    await page2.save();
+    let page3= new Page({
+      pageNo: 3,
+      componentList: ['birthday']
+    });
+    await page3.save();
+    res.status(200).json({ message: "Pages reset successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error resetting pages", error });
+  }
+});
+
 router.post('/pages', async (req, res) => {
   const { pageNo, componentList } = req.body;
 
