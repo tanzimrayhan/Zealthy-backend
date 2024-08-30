@@ -1,8 +1,9 @@
 import express from "express";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 import User from "../models/user.js";
 import Page from "../models/page.js"; // assuming Page model is in models/Page
-import  mongoose  from "mongoose";
+import mongoose from "mongoose";
+import e from "express";
 
 const router = express.Router();
 
@@ -18,18 +19,20 @@ router.post("/user", async (req, res) => {
     zip,
   } = req.body;
 
-  if (!email || !email.includes('@')) {
-    return res.status(400).json({ message: 'Invalid email' });
+  if (!email || !email.includes("@")) {
+    return res.status(400).json({ message: "Invalid email" });
   }
 
   if (!password || password.length < 8) {
-    return res.status(400).json({ message: 'Password must be at least 8 characters' });
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 8 characters" });
   }
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'Email already exists' });
+      return res.status(400).json({ message: "Email already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
@@ -70,15 +73,33 @@ router.get("/pages", async (req, res) => {
 
 router.get("/resetPages", async (req, res) => {
   try {
-    let page2= new Page({
-      pageNo: 2,
-      componentList: ['aboutMe', 'city', 'state', 'zip']
-    });
+    let page2 = await Page.findOne({ pageNo: 2 });
+    if (page2) {
+      page2.componentList = [
+        "aboutMe",
+        "streetAddress",
+        "city",
+        "state",
+        "zip",
+      ];
+    } else {
+      page2 = new Page({
+        pageNo: 2,
+        componentList: ["aboutMe", "streetAddress", "city", "state", "zip"],
+      });
+    }
+
     await page2.save();
-    let page3= new Page({
-      pageNo: 3,
-      componentList: ['birthday']
-    });
+    let page3 = await Page.findOne({ pageNo: 3 });
+    if (page3) {
+      page3.componentList = ["birthday"];
+    } else {
+      page3 = new Page({
+        pageNo: 3,
+        componentList: ["birthday"],
+      });
+    }
+    
     await page3.save();
     res.status(200).json({ message: "Pages reset successfully" });
   } catch (error) {
@@ -86,7 +107,7 @@ router.get("/resetPages", async (req, res) => {
   }
 });
 
-router.post('/pages', async (req, res) => {
+router.post("/pages", async (req, res) => {
   const { pageNo, componentList } = req.body;
 
   try {
@@ -97,15 +118,15 @@ router.post('/pages', async (req, res) => {
     } else {
       page = new Page({
         pageNo,
-        componentList
+        componentList,
       });
     }
 
     await page.save();
 
-    res.status(201).json({ message: 'Page layout created successfully', page });
+    res.status(201).json({ message: "Page layout created successfully", page });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating page', error });
+    res.status(500).json({ message: "Error creating page", error });
   }
 });
 
