@@ -4,13 +4,11 @@ Zealthy Backend is a Node.js and Express-based application that serves as the ba
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+- [Zealthy Backend](#zealthy-backend)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Usage](#usage)
 
 
 ## Installation
@@ -23,7 +21,28 @@ Zealthy Backend is a Node.js and Express-based application that serves as the ba
    ```
 2. **Install Dependencies:**
 
-  Make sure you have [Node JS](https://nodejs.org/en) installed
+   Make sure you have [Node JS](https://nodejs.org/en) installed
    ```bash
    npm install
-  ```
+   ```
+
+
+## Configuration
+   Create a .env file in the root directory of the project.
+
+   The file should include necessary environment variables. For example:
+
+   ```
+   PORT= <YOUR_PORT>
+   MONGODB_URI= <YOUR_MONGO_CONNECTION_URI>
+   ```
+
+## Usage
+   Run the development server:
+
+   ```
+   node index.js
+   ```
+   The server will start on the specified port in .env. You can access the API at http://localhost:**YOUR_PORT**.
+
+
